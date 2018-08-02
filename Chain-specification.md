@@ -111,6 +111,8 @@ A JSON file which specifies rules of a blockchain, some fields are optional whic
   + `"eip211Transition"` Gas allocated for [EIP-210](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-210.md) blockhash update transition block number.
   + `"eip214Transition"` [EIP214](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-214.md) transition block number.
   + `"eip145Transition"` [EIP145](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-145.md) transition block number.
+  + `"eip1014Transition"` [EIP1014](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1014.md) transition block number.
+  + `"eip1052Transition"` [EIP1052](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1052.md) transition block number.
   + `"dustProtectionTransition"` Dust cleanup (EIP-168 and EIP169) transition block number.
   + `"nonceCapIncrement"` - U64 - Nonce cap increase per block. Nonce cap is only checked if dust protection is enabled..
   + `"removeDustContracts"` - bool - Enable dust cleanup for contracts.
