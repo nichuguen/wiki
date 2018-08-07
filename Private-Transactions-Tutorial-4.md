@@ -133,6 +133,11 @@ The result is the transaction hash that we will not use.
 }
 ```
 
+If this step was performed successfuly, you should see the following line in the console logs of Alice's node. This indicates that the state change was successful.
+```bash
+Transaction mined (hash 0x13724c166e0eba0e9a3adc32d8887494eba877bdaaca4ac8471014b87ac13e4f)
+```
+
 ### 3. Verify the state change
 
 We can now use the same call as in step 1. (with an updated nonce) to read the state of `x`:

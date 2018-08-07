@@ -41,6 +41,7 @@
 - [trace](JSONRPC-trace-module)
 - [shh](JSONRPC-shh-Module)
 - [secretstore](JSONRPC-secretstore-module)
+- [private](JSONRPC-private-module)
 
 ### Technologies
 - [Transaction Queue](Transactions-Queue)

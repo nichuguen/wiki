@@ -81,7 +81,7 @@ Result:
 
 ### private_sendTransaction
 
-Broadcast a previously signed transaction to the validators for them to read it and change the state of a private contract accordingly.
+Broadcast a previously signed transaction to the validators for them to read it and validate the state change of a private contract.
 
 #### Parameters
 `Data`: Bytes - signed regular transaction.

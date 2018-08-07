@@ -3,6 +3,7 @@ title: Part 1 - Configuring each node
 ---
 
 The Secret Store nodes have been configured in the [Secret Store tutorial](https://wiki.parity.io/Secret-Store-Tutorial-overview) and do not need to be modified for now.
+The Secret Store is a crucial element of the private transactions feature. The Secret Store nodes manage the permissioning as well as the encryption/decryption key delivery for the private transactions and private contract.
 Unlike the Secret Store tutorial, we will setup two distinct nodes for Alice and Bob as they will have different roles.
 Alice's address will be used as the external account to sign and interact with the private contract, while Bob will be a validator.
 
@@ -19,7 +20,10 @@ Parity should then be available at `/path/to/parityt_code/target/release/parity`
 
 ### 1. Configure Alice's node
 We will create a config file named `alice.toml` based on `users.toml` from the [Secret Store Tutorial](https://wiki.parity.io/Secret-Store-Tutorial-overview).
-Alice's node needs its dedicated data directory. Make sure you also add the relevant JSON-RPC APIs to Alice's node: `["secretstore","eth","net","private","parity","personal"]`.
+Alice's node needs its dedicated data directory. We also need to add the relevant JSON-RPC APIs to Alice's node: `["secretstore","eth","net","private","parity","personal"]`.
+
+We will add a `[private_tx]` section where we need to specify the parameters related to our private transaction system. Alice's account will be used to sign the public transactions (to deploy the public contract containing the private contract for instance). This is specified using the field `signer`. This is the only entry specific to Alice's node. We will then specify the list of validators, the url to reach the Secret Store as well as the account that should be used to sign messages to the Secret Store. 
+
 The list of bootnodes correspond to the Secret Store nodes for now; we will add Alice and Bob's node later on.
 
 Here is how the file `alice.toml` should look likes:
@@ -39,6 +43,14 @@ cors = ["http://remix.ethereum.org"]                                # allow remi
 [secretstore]
 disable = true # users do not run a secret store node
 
+[private_tx]
+enabled = true                                              # Enable private transactions.
+signer = "0xe5a4b6f39b4c3e7203ca8caeecbad58d8f29b046"       # Alice's account to sign public transactions created upon verified private transaction.
+validators = ["0xfeacd0d28fd158ba2d3adb6d69d20c723214edc9"] # Bob's account is set as validator.
+account = "0xe5a4b6f39b4c3e7203ca8caeecbad58d8f29b046"      # Alice's account to sign requests sent to the Secret Store.
+passwords = "alice.pwd"                                     # File containing the password to unlock Alice accounts (signer, private account, validators).
+sstore_url = "http://127.0.0.1:8010"                        # Specify secret store URL used for encrypting private transactions.
+
 [network]
 port = 30300
 bootnodes = [
@@ -53,6 +65,7 @@ bootnodes = [
 
 Bob's configuration file is even simpler as it will only be used as a validator. No need for RPC server here.
 We will create a config file named `bob.toml`, using a dedicated directory for Bob and a network port that isn't used yet.
+We also need to add a `[private_tx]` section. As Bob's node will not be used to sign public transactions, the `signer` entry is not needed. Other than that, the entries are the same as Alice's node.
 
 Bob's toml
 ```toml
@@ -70,6 +83,13 @@ disable = true
 
 [secretstore]
 disable = true # users do not run a secret store node
+
+[private_tx]
+enabled = true                                                # Enable private transactions.
+validators = ["0xfeacd0d28fd158ba2d3adb6d69d20c723214edc9"]   # Bob's account as a validator
+account = "0xfeacd0d28fd158ba2d3adb6d69d20c723214edc9"        # Bob's address to signing requests sent to the Secret Store.
+passwords = "bob.pwd"                                         # File containing the password to unlock Bob's accounts (signer, private account, validators).
+sstore_url = "http://127.0.0.1:8010"                          # Secret Store URL used for encrypting private transactions.
 
 [network]
 port = 30304  #use a dedicated networking port
@@ -136,30 +156,7 @@ password = ["alice.pwd"]
 
 You can find the complete set of files in [this repository](https://github.com/Tbaut/Private-Transations-Tutorial-files/tree/master/config).
 
-## 4. launch the nodes with the correct flags
-
-Alice and Bob's nodes are now configured, we can launch them with the dedicated private flags:
-
-Alice's node should be launched with:
-
-- `--private-tx-enabled` to allow private transaction feature.
-- `--private-signer="0x_Alice_s_address"` to sign public transaction with Alice's key
-- `--private-account="0x_Alice_s_address"` to sign private transaction (to the Secret Store) with Alice's key
-- `--private-sstore-url="http://127.0.0.1:8010"` to indicated what address to use to reach the secret store
-- `--private-passwords alice.pwd` to unlock Alice's account to sign any transaction (private and public)
-
-Alice's node can be launched with:
-`parity --config alice.toml --private-tx-enabled --private-signer="0xe5a4b6f39b4c3e7203ca8caeecbad58d8f29b046" --private-account="0xe5a4b6f39b4c3e7203ca8caeecbad58d8f29b046" --private-sstore-url="http://127.0.0.1:8010" --private-passwords alice.pwd`
-
-For Bob, as a validator, we will use:
-- `--private-tx-enabled` to allow private transaction feature.
-- `--private-validators="0x_Bob_s_address"` to specify that Bob is a validator.
-- `--private-account="0x_Bob_s_address"` to sign private transaction (to the Secret Store) with Alice's key.
-- `--private-sstore-url="http://127.0.0.1:8010"` to indicated what address to use to reach the secret store.
-- `--private-passwords bob.pwd` to unlock Bob's account to sign private transactions.
-
-Bob's node can be launched with:
-`parity --config bob.toml --private-tx-enabled --private-validators="0xfeacd0d28fd158ba2d3adb6d69d20c723214edc9" --private-account="0xfeacd0d28fd158ba2d3adb6d69d20c723214edc9" --private-sstore-url="http://127.0.0.1:8010" --private-passwords bob.pwd`
+The node's configuration is now complete, you can launch Alice, Bob's and the Secret Store nodes with their respective toml file.
 
 |[ ← Tutorial overview ](Private-Transactions-Tutorial-Overview.md) | [ Part 2 - Permissioning contract → ](Private-Transactions-Tutorial-2.md)|
 
