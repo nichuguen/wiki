@@ -7,7 +7,7 @@ The Secret Store is a crucial element of the private transactions feature. The S
 Unlike the Secret Store tutorial, we will setup two distinct nodes for Alice and Bob as they will have different roles.
 Alice's address will be used as the external account to sign and interact with the private contract, while Bob will be a validator.
 
-### 0. Prerquisite
+### 0. Prerequisite
 
 Right now, it is required you compile parity on the branch `PrivatePacketsVerification` that contains bug fixes. Please follow the steps to [build parity](https://wiki.parity.io/Setup#building-from-source)
 ```bash

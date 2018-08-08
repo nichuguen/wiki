@@ -32,7 +32,7 @@ Crafts a specific transaction wrapping a private contract inside a public contra
 
 0. `Object` - The transaction's receipt object
   - `contractAddress`: `Address` - Address at which the public contract containing the private contract will be deployed.
-  - `status`: `Integer` - Status of the transaction. **<--this needs to be precised, what are the possible values and what they mean**
+  - `status`: `Integer` - Status of the transaction. Reserved for future use, always 0 for now.
   - `transactionHash`: `Hash` - 32 Bytes - Hash of the public transaction
 0. `Object` - The transaction's object
   - `condition`: `Object` - (optional) Conditional submission of the transaction. Can be either an integer block number `{ block: 1 }` or UTC timestamp (in seconds) `{ time: 1491290692 }` or `null`.
@@ -86,8 +86,8 @@ Broadcast a previously signed transaction to the validators for them to read it 
 #### Parameters
 `Data`: Bytes - signed regular transaction.
 #### Returns
-  - `contractAddress`: `Address` - Address at which the public contract containing the private contract will be deployed. **<--does this make sense as privateComposeTransaction should be used for private  contract creation**
-  - `status`: `Integer` - Status of the transaction. **<--this needs to be precised, what are the possible values and what they mean**
+  - `contractAddress`: `Address` - Address of the public contract containing the encrypted private contract.
+  - `status`: `Integer` - Status of the transaction. Reserved for future use, always 0 for now.
   - `transactionHash`: `Hash` - 32 Bytes - Hash of the public transaction
 
 #### Example
@@ -102,7 +102,7 @@ Result:
 {
     "jsonrpc": "2.0",
     "result": {
-        "contractAddress": null,
+        "contractAddress": 0x4466399893d182dcbe43c2a5a79db93b52ed26ae,
         "status": 0,
         "transactionHash": "0x13724c166e0eba0e9a3adc32d8887494eba877bdaaca4ac8471014b87ac13e4f"
     },
