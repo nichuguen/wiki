@@ -125,7 +125,7 @@ The result is the transaction hash that we will not use.
 {
     "jsonrpc": "2.0",
     "result": {
-        "contractAddress": null,
+        "contractAddress": 0x4466399893d182dcbe43c2a5a79db93b52ed26ae,
         "status": 0,
         "transactionHash": "0x13724c166e0eba0e9a3adc32d8887494eba877bdaaca4ac8471014b87ac13e4f"
     },
@@ -133,7 +133,7 @@ The result is the transaction hash that we will not use.
 }
 ```
 
-If this step was performed successfuly, you should see the following line in the console logs of Alice's node. This indicates that the state change was successful.
+If this step was performed successfully, you should see the following line in the console logs of Alice's node. This indicates that the state of the private contract was successfully changed.
 ```bash
 Transaction mined (hash 0x13724c166e0eba0e9a3adc32d8887494eba877bdaaca4ac8471014b87ac13e4f)
 ```
