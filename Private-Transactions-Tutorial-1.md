@@ -99,7 +99,7 @@ bootnodes = [
 ]
 ```
 
-Note that `validators` field is an array. A node could use several identities to validate several private contracts. In this tutorial, we will later deploy a contract specifying Bob's account as validator. There needs to be a node on the netowrk running with Bob's account in the `validators` field and the associated password. In our case, it's the node we've just setup.
+Note that the `validators` field is an array. A node could use several identities to validate several private contracts. In the next steps of this tutorial, we will deploy a private contract specifying Bob's account as validator. Because of this, there needs to be a node on the network running with Bob's account in the `validators` field and the associated password in the `passwords` field. Otherwise, no private transaction can be deployed. In our case, the node we've just setup will validate the private transactions.
 
 ## 3. Finalize configurations
  
