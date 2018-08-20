@@ -22,7 +22,7 @@ Parity should then be available at `/path/to/parityt_code/target/release/parity`
 We will create a config file named `alice.toml` based on `users.toml` from the [Secret Store Tutorial](https://wiki.parity.io/Secret-Store-Tutorial-overview).
 Alice's node needs its dedicated data directory. We also need to add the relevant JSON-RPC APIs to Alice's node: `["secretstore","eth","net","private","parity","personal"]`.
 
-We will add a `[private_tx]` section where we need to specify the parameters related to our private transaction system. Alice's account will be used to sign the public transactions (to deploy the public contract containing the private contract for instance). This is specified using the field `signer`. This is the only entry specific to Alice's node. We will then specify the list of validators, the url to reach the Secret Store as well as the account that should be used to sign messages to the Secret Store. 
+We will add a `[private_tx]` section where we need to specify the parameters related to our private transaction system. Alice's account will be used to sign the public transactions (to deploy the public contract containing the private contract for instance). This is specified using the field `signer`. This is the only entry specific to Alice's node. We will then specify the url to reach the Secret Store as well as the account that should be used to sign messages to the Secret Store. 
 
 The list of bootnodes correspond to the Secret Store nodes for now; we will add Alice and Bob's node later on.
 
@@ -46,7 +46,6 @@ disable = true # users do not run a secret store node
 [private_tx]
 enabled = true                                              # Enable private transactions.
 signer = "0xe5a4b6f39b4c3e7203ca8caeecbad58d8f29b046"       # Alice's account to sign public transactions created upon verified private transaction.
-validators = ["0xfeacd0d28fd158ba2d3adb6d69d20c723214edc9"] # Bob's account is set as validator.
 account = "0xe5a4b6f39b4c3e7203ca8caeecbad58d8f29b046"      # Alice's account to sign requests sent to the Secret Store.
 passwords = "alice.pwd"                                     # File containing the password to unlock Alice accounts (signer, private account, validators).
 sstore_url = "http://127.0.0.1:8010"                        # Specify secret store URL used for encrypting private transactions.
@@ -63,7 +62,7 @@ bootnodes = [
 
 ### 2. Configure Bob's node
 
-Bob's configuration file is even simpler as it will only be used as a validator. No need for RPC server here.
+Bob's configuration file will specify Bob's account can be used to validate private transactions. No need for RPC server here.
 We will create a config file named `bob.toml`, using a dedicated directory for Bob and a network port that isn't used yet.
 We also need to add a `[private_tx]` section. As Bob's node will not be used to sign public transactions, the `signer` entry is not needed. Other than that, the entries are the same as Alice's node.
 
@@ -99,6 +98,8 @@ bootnodes = [
   "enode://58815b57d8af2bc04963bde42b27deca674c18dca4098b8891296479ce0a83c2398a141babb835f181c6447bb1ac2ce4dca88ec20908d41b86166018d842fab4@127.0.0.1:30303",
 ]
 ```
+
+Note that `validators` field is an array. A node could use several identities to validate several private contracts. In this tutorial, we will later deploy a contract specifying Bob's account as validator. There needs to be a node on the netowrk running with Bob's account in the `validators` field and the associated password. In our case, it's the node we've just setup.
 
 ## 3. Finalize configurations
  
